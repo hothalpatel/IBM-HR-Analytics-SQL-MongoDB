@@ -1,0 +1,131 @@
+Query 1
+
+Assume that the company has several branch offices around the country and employee morale is down. The company feels that not enough employees are traveling frequently between offices and that more employees should travel frequently to the branch offices to improve morale amongst each other. Is the company correct in feeling this way?
+
+SELECT 
+	BusinessTravel,
+	ROUND(AVG((JobSatisfaction + RelationshipSatisfaction + 	EnvironmentSatisfaction + WorkLifeBalance)/4)),2) AS Morale
+FROM
+	employee_jobdetails AS ejob
+	INNER JOIN employee_satisfaction AS esat
+		ON (ejob.EmployeeNumber=esat.EmployeeNumber)
+GROUP BY
+	BusinessTravel
+
+Query 2
+
+Which department's employee is the most likely to have the shortest commute between home and work?
+
+SELECT
+	Department,
+	ROUND(AVG(DistanceFromHome),2) AS AverageDistance
+FROM
+	employee_jobdetails AS ejob
+	INNER JOIN employee_personalinfo AS eperson
+		ON (ejob.EmployeeNumber=eperson.EmployeeNumber)
+GROUP BY
+	DEPARTMENT
+ORDER BY
+	AVG(DistanceFromHome)
+
+Query 3
+
+A new employee from a Medical-related education field wants to work in Sales. Do you believe the company might be able to give her a chance to work in Sales? Why or Why not?
+
+SELECT 
+	Department,
+	EducationField,
+	COUNT(eperson.EmployeeNumber) AS CountOfEmployees,
+	ROUND(AVG(PerformanceRating),2) AS AveragePerformanceRating
+FROM
+	employee_jobdetails AS ejob
+	INNER JOIN employee_personalinfo AS eperson
+		ON (ejob.EmployeeNumber=eperson.EmployeeNumber)
+	INNER JOIN employee_performance AS erating
+		ON (eperson.EmployeeNumber=erating.EmployeeNumber)
+WHERE
+	Department='Sales'
+GROUP BY
+	Department, EducationalField
+ORDER BY
+	AVG(PerformanceRating) DESC
+
+Query 4
+
+The HR department feels they have the highest job satisfaction while the Research & Development department feels their department has the highest environment satisfaction. Who is right?
+
+SELECT
+	Department,
+	ROUND(AVG(JobSatisfaction),2) AS Avg_JobSatisfaction,
+	ROUND(AVG(EnvironmentSatisfaction),2) AS Avg_EnvironmentSatisfaction
+FROM
+	employee_jobdetails AS ejob
+	INNER JOIN employee_satisfaction AS esat
+		ON (ejob.EmployeeNumber=esat.EmployeeNumber)
+GROUP BY
+	Department
+
+Query 5
+
+An employee in the Sales department has complained to HR saying that females are paid less than males in the company, in all departments. What insight can you provide to prove or disprove that statement?
+
+SELECT 
+	Department,
+	JobLevel,
+	Gender,
+	ROUND(AVG(DailyRate),2) AS Avg_DailyRate
+FROM
+	employee_jobdetails AS ejob
+	INNER JOIN employee_personalinfo AS eperson
+		ON (ejob.EmployeeNumber=eperson.EmployeeNumber
+GROUP BY
+	Department, JobLevel, Gender
+ORDER BY
+	Department, JobLevel, Gender
+
+Query 6
+
+A press article in a business magazine has said that at this company, married men have higher performance ratings than divorced or single men. What initial finding can you obtain from the data to help articulate the company's response in this regard?
+
+SELECT
+	Department,
+	MartialStatus,
+	ROUND(AVG(PerformanceRating),2) AS AveragePerformanceRating
+FROM
+	employee_jobdetails AS ejob
+	INNER JOIN employee_personalinfo AS eperson
+		ON (ejob.EmployeeNumber=eperosn.EmployeeNumber)
+	INNER JOIN employee_performance AS erating 
+		ON (eperson.EmployeeNumber=erating.EmployeeNumber)
+GROUP BY
+	Department, MartialStatus
+ORDER BY
+	Department, AVG(PerformanceRating) DESC
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
